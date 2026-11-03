@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A front-end prototype to compare a resume with a job description and preview application recommendations.">
+  <title>AI-Assisted Job Application | V2</title>
+  <style>
+    :root { color-scheme: light; --bg:#f4f7fb; --card:#fff; --text:#172339; --muted:#62718a; --border:#dbe3ee; --primary:#3459d1; --primary-dark:#2747b2; --soft:#edf2ff; --good:#13775d; --good-bg:#e6f7f0; --warn:#93610e; --warn-bg:#fff4d9; --danger:#bb3344; --danger-bg:#fff0f2; --shadow:0 12px 34px rgba(20,40,80,.055); }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} button,textarea,input,select{font:inherit} .container{width:min(1100px,calc(100% - 36px));margin-inline:auto} .hero{padding:56px 0 42px;background:linear-gradient(115deg,#142959,#2b51ae);color:#fff} .eyebrow{margin:0 0 12px;color:#bed0ff;font-size:.77rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase} h1{font-size:clamp(2rem,4.5vw,3.05rem);line-height:1.17;letter-spacing:-.035em;margin:0 0 14px} .hero p:last-child{margin:0;color:#e0e9ff;font-size:1.08rem} main{padding:32px 0 70px}.section-heading{margin:0 0 16px;font-size:1.3rem;letter-spacing:-.025em} .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--shadow)} .card-title{margin:0 0 6px;font-size:1.06rem;font-weight:750}.hint{color:var(--muted);font-size:.88rem;margin:0 0 18px} .upload-zone{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;min-height:196px;text-align:center;border:2px dashed #b7c7df;border-radius:14px;background:#f9fbff;padding:20px;transition:border-color .2s,background .2s;cursor:pointer}.upload-zone:hover,.upload-zone:focus-within{border-color:var(--primary);background:var(--soft)}.upload-zone svg{width:32px;height:32px;stroke:var(--primary)}.upload-zone strong{color:var(--primary)} .upload-zone small{color:var(--muted)} #resume{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden} .file-name{font-size:.89rem;color:var(--good);overflow-wrap:anywhere;margin:12px 0 0;min-height:1.3em} textarea{display:block;width:100%;min-height:220px;resize:vertical;border:1px solid #cbd6e6;border-radius:12px;background:#fcfdff;color:var(--text);padding:15px;outline:none}textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px #3459d122} textarea::placeholder{color:#8a97aa} .tone-field{margin-top:20px;display:flex;flex-direction:column;gap:7px;max-width:320px}.tone-field label{font-size:.94rem;font-weight:750}.tone-field select{width:100%;border:1px solid #cbd6e6;border-radius:12px;background:#fcfdff;color:var(--text);padding:11px 14px;cursor:pointer}.tone-field select:focus-visible{outline:3px solid #89a4ff;outline-offset:2px} .action-row{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:22px 0 10px;flex-wrap:wrap}.privacy-note{font-size:.83rem;color:var(--muted);margin:0}.primary-btn,.copy-btn{border:0;border-radius:11px;cursor:pointer;font-weight:750;transition:background .15s,transform .15s}.primary-btn{padding:14px 27px;color:#fff;background:var(--primary);box-shadow:0 6px 16px #3459d126}.primary-btn:hover{background:var(--primary-dark)}.primary-btn:disabled{opacity:.6;cursor:wait}.primary-btn:active,.copy-btn:active{transform:translateY(1px)}.primary-btn:focus-visible,.copy-btn:focus-visible,.upload-zone:focus-within{outline:3px solid #89a4ff;outline-offset:3px} .alert{display:none;margin:14px 0 0;padding:12px 16px;border-radius:10px;background:var(--danger-bg);border:1px solid #f0bbc2;color:var(--danger);font-weight:650}.alert.show{display:block} [hidden]{display:none !important} #results{margin-top:42px;scroll-margin-top:22px}.results-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.results-head h2{margin:0;font-size:1.48rem}.demo-badge{background:var(--soft);color:#3459aa;padding:5px 11px;border-radius:999px;font-size:.76rem;font-weight:800;letter-spacing:.02em}.results-grid{display:grid;gap:20px}.score-wrap{display:flex;align-items:center;gap:24px;margin:20px 0 24px}.score-ring{width:118px;aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--primary) 0 78%,#e5ebf5 78% 100%);display:grid;place-items:center;flex-shrink:0}.score-ring-inner{width:91px;aspect-ratio:1;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:850;font-size:1.7rem;color:var(--primary)}.score-label{font-weight:800;margin:0 0 5px}.score-description{color:var(--muted);margin:0;font-size:.9rem}.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.skills-grid h4{font-size:.92rem;margin:0 0 12px}.tag-list{display:flex;gap:9px;flex-wrap:wrap}.tag{border-radius:8px;padding:6px 10px;font-size:.85rem;font-weight:650}.matched{color:var(--good);background:var(--good-bg)}.gap{color:var(--warn);background:var(--warn-bg)}.suggestions{margin:16px 0 0;padding-left:23px}.suggestions li{padding:5px 0}.letter-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.copy-btn{padding:10px 15px;color:var(--primary);background:var(--soft)}.copy-btn:hover{background:#dfe8ff}.cover-letter{white-space:pre-wrap;margin:20px 0 0;padding:20px;background:#f8faff;border:1px solid #e2e9f4;border-radius:12px;color:#283750;line-height:1.75;font-family:inherit;font-size:.94rem;overflow-wrap:anywhere}.copy-status{color:var(--good);font-size:.82rem;margin:8px 0 0;min-height:1.2em}.footnote{color:var(--muted);font-size:.85rem;margin-top:19px}footer{padding:0 0 26px;text-align:center;color:var(--muted);font-size:.8rem}@media(max-width:760px){.hero{padding:42px 0 34px}.input-grid,.skills-grid{grid-template-columns:1fr}.card{padding:20px}.action-row{align-items:stretch}.primary-btn{width:100%}.action-row .privacy-note{order:2}.score-wrap{gap:18px}.score-ring{width:102px}.score-ring-inner{width:78px;font-size:1.4rem}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important}}
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="container"><p class="eyebrow">Job application toolkit · Version 2</p><h1>AI-Assisted Job Application</h1><p>Upload your resume. Add a job description. See how well you match.</p></div></header>
+  <main class="container">
+    <section aria-labelledby="input-heading">
+      <h2 class="section-heading" id="input-heading">Your application details</h2>
+      <div class="input-grid">
+        <div class="card"><h3 class="card-title">1. Resume Upload</h3><p class="hint">Select a PDF, DOCX, or TXT resume to get started.</p><label class="upload-zone" for="resume"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M4 16v4h16v-4"/></svg><strong>Choose your resume</strong><span>Click here to select a file</span><small>Accepted: .pdf, .docx, .txt</small><input type="file" id="resume" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" aria-describedby="file-name"></label><p class="file-name" id="file-name" aria-live="polite">No file selected</p></div>
+        <div class="card"><label for="job-description" class="card-title" style="display:block">2. Job Description</label><p class="hint">Paste the full position description below.</p><textarea id="job-description" placeholder="Paste the Job Description here..." aria-label="Job Description"></textarea></div>
+      </div>
+      <div class="tone-field"><label for="cover-letter-tone">Cover Letter Tone</label><select id="cover-letter-tone" name="coverLetterTone"><option value="Professional" selected>Professional</option><option value="Concise">Concise</option><option value="Enthusiastic">Enthusiastic</option></select></div>
+      <div class="action-row"><p class="privacy-note">Your resume and Job Description are sent to OpenAI for analysis. Avoid uploading sensitive personal information.</p><button class="primary-btn" id="analyse-btn" type="button">Analyse My Fit →</button></div>
+      <div class="alert" id="validation-message" role="alert" aria-live="assertive"></div><p id="loading-status" class="privacy-note" role="status" aria-live="polite" hidden>Analysing your resume against the job description…</p>
+    </section>
+    <section id="results" aria-labelledby="results-heading" hidden>
+      <div class="results-head"><h2 id="results-heading">Your application analysis</h2><span class="demo-badge">AI-ASSISTED ANALYSIS</span></div>
+      <div class="results-grid">
+        <article class="card" aria-labelledby="skills-heading"><h3 class="card-title" id="skills-heading">Skills Match Analysis</h3><p class="hint">Evidence-based comparison of your resume and this role.</p><div class="score-wrap"><div class="score-ring" role="img" aria-label="Overall match score: 0 percent"><div class="score-ring-inner">0%</div></div><div><p class="score-label">Overall Match Score</p><p class="score-description">Estimated match based on your resume and job description</p></div></div><div class="skills-grid"><div><h4>Matched Skills</h4><div class="tag-list" id="strengths-list"></div></div><div><h4>Potential Skill Gaps</h4><div class="tag-list" id="gaps-list"></div></div></div></article>
+        <article class="card" aria-labelledby="suggestions-heading"><h3 class="card-title" id="suggestions-heading">Resume Improvement Suggestions</h3><ol class="suggestions" id="suggestions-list"></ol></article>
+        <article class="card" aria-labelledby="letter-heading"><div class="letter-head"><h3 class="card-title" id="letter-heading">Cover Letter Draft</h3><button class="copy-btn" type="button" id="copy-btn" aria-label="Copy cover letter">Copy Letter</button></div><p class="hint">AI-generated draft based on your resume and the role. Verify every claim before use.</p><div class="cover-letter" id="cover-letter"></div><p id="copy-status" class="copy-status" role="status" aria-live="polite"></p></article>
+      </div>
+      <p class="footnote">The match score is an AI estimate, not an ATS score or hiring prediction. Review the analysis and cover letter for accuracy before using them.</p>
+    </section>
+  </main>
+  <footer>AI-Assisted Job Application · AI-powered prototype · Version 2</footer>
+  <script>
+    'use strict';
+    const resumeInput = document.getElementById('resume');
+    const fileName = document.getElementById('file-name');
+    const jobDescription = document.getElementById('job-description');
+    const coverLetterTone = document.getElementById('cover-letter-tone');
+    const validationMessage = document.getElementById('validation-message');
+    const results = document.getElementById('results');
+    const analyseButton = document.getElementById('analyse-btn');
+    const loadingStatus = document.getElementById('loading-status');
+    const copyButton = document.getElementById('copy-btn');
+    const copyStatus = document.getElementById('copy-status');
+    const allowedExtensions = new Set(['pdf', 'docx', 'txt']);
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+    function getValidFile() {
+      const file = resumeInput.files && resumeInput.files[0];
+      if (!file) return null;
+      const extension = file.name.split('.').pop().toLowerCase();
+      return allowedExtensions.has(extension) ? file : null;
+    }
+    function setValidation(message) {
+      validationMessage.textContent = message;
+      validationMessage.classList.toggle('show', Boolean(message));
+    }
+    resumeInput.addEventListener('change', () => {
+      const file = resumeInput.files && resumeInput.files[0];
+      if (!file) { fileName.textContent = 'No file selected'; results.hidden = true; return; }
+      if (!getValidFile()) {
+        fileName.textContent = 'Unsupported file format';
+        setValidation('Please upload a PDF, DOCX, or TXT resume.');
+        results.hidden = true;
+        return;
+      }
+      fileName.textContent = 'Selected file: ' + file.name;
+      setValidation('');
+      results.hidden = true;
+    });
+    jobDescription.addEventListener('input', () => { setValidation(''); results.hidden = true; });
+
+    function appendItems(elementId, items, cssClass, tagName) {
+      const container = document.getElementById(elementId);
+      container.replaceChildren();
+      if (!items.length) {
+        const empty = document.createElement(tagName);
+        empty.textContent = 'None clearly identified';
+        if (cssClass) empty.className = cssClass;
+        container.appendChild(empty);
+        return;
+      }
+      for (const item of items) {
+        const node = document.createElement(tagName);
+        node.textContent = item; // Never render AI output as HTML.
+        if (cssClass) node.className = cssClass;
+        container.appendChild(node);
+      }
+    }
+
+    function renderAnalysis(data) {
+      if (!Number.isInteger(data.matchScore) || data.matchScore < 0 || data.matchScore > 100 ||
+          !Array.isArray(data.strengths) || !Array.isArray(data.gaps) ||
+          !Array.isArray(data.resumeSuggestions) || typeof data.coverLetter !== 'string') {
+        throw new Error('The AI returned an unexpected result. Please try again.');
+      }
+      const scoreRing = document.querySelector('.score-ring');
+      scoreRing.style.background = `conic-gradient(var(--primary) 0 ${data.matchScore}%, #e5ebf5 ${data.matchScore}% 100%)`;
+      scoreRing.setAttribute('aria-label', `Overall match score: ${data.matchScore} percent`);
+      document.querySelector('.score-ring-inner').textContent = `${data.matchScore}%`;
+      appendItems('strengths-list', data.strengths, 'tag matched', 'span');
+      appendItems('gaps-list', data.gaps, 'tag gap', 'span');
+      appendItems('suggestions-list', data.resumeSuggestions, '', 'li');
+      document.getElementById('cover-letter').textContent = data.coverLetter;
+      copyStatus.textContent = '';
+      copyButton.textContent = 'Copy Letter';
+      results.hidden = false;
+      results.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+
+    analyseButton.addEventListener('click', async () => {
+      if (analyseButton.disabled) return;
+      const file = getValidFile();
+      const description = jobDescription.value.trim();
+      if (!file && !description) { setValidation('Please upload your resume and paste a Job Description before analysing.'); results.hidden = true; return; }
+      if (!file) { setValidation('Please upload a valid resume (PDF, DOCX, or TXT).'); results.hidden = true; return; }
+      if (file.size > MAX_FILE_SIZE) { setValidation('The resume must be smaller than 5 MB.'); results.hidden = true; return; }
+      if (!description) { setValidation('Please paste a Job Description before analysing.'); results.hidden = true; return; }
+      setValidation('');
+      results.hidden = true;
+      analyseButton.disabled = true;
+      analyseButton.textContent = 'Analysing…';
+      loadingStatus.hidden = false;
+      const form = new FormData();
+      form.append('resume', file);
+      form.append('jobDescription', description);
+      form.append('coverLetterTone', coverLetterTone.value);
+      try {
+        const response = await fetch('/api/analyse', { method: 'POST', body: form });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'Analysis failed. Please try again.');
+        renderAnalysis(payload);
+      } catch (error) {
+        setValidation(error.message === 'Failed to fetch' ? 'Cannot reach the server. Start the Python backend and open http://127.0.0.1:5000.' : error.message);
+      } finally {
+        analyseButton.disabled = false;
+        analyseButton.textContent = 'Analyse My Fit →';
+        loadingStatus.hidden = true;
+      }
+    });
+    copyButton.addEventListener('click', async () => {
+      const letter = document.getElementById('cover-letter').textContent;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(letter);
+        } else {
+          const helper = document.createElement('textarea');
+          helper.value = letter;
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          const successful = document.execCommand('copy');
+          helper.remove();
+          if (!successful) throw new Error('Copy command not supported');
+        }
+        copyButton.textContent = 'Copied ✓';
+        copyStatus.textContent = 'Cover letter copied to your clipboard.';
+      } catch (error) {
+        copyStatus.textContent = 'Automatic copying is unavailable. Please select and copy the letter manually.';
+      }
+    });
+  </script>
+</body>
+</html>
